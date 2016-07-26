@@ -46,7 +46,7 @@ Function FolderUI()
 	
 	// request open parameters
 	Variable suffend = 0001, saves = 1
-	String basenameo = "Image"  //"SKPM_"
+	String basenameo = "SKPM_"  //"SKPM_"
 	Prompt basenameo, "Enter the base name of the files (enclose in quotes, CASE matters): " 
 	Prompt suffend, "What suffix number do you want the export to END with?"
 	Prompt saves, "Use default save parameters? (e.g. save folder, save name, inital file exported) ", popup "Yes;No"
@@ -54,8 +54,7 @@ Function FolderUI()
 	if (V_Flag)
 		return -1		//user canceled
 	endif 
-	
-	//  Add this section back once bugs are worked out
+
 	// do they want default save parameters if no do:
 	if (saves !=1)
 		//request save path
@@ -63,9 +62,9 @@ Function FolderUI()
 		NewPath /M  = message /O basepaths
 		PathInfo basepaths  // obtain symbolic path
 		string basepaths = S_path  // set path string to basepaths
-		if (V_Flag)		//user canceled this prompt, do not set basepaths (let OSC() deal with it)
-			basepaths = basepatho
-		endif
+		//if (V_Flag)		//user canceled this prompt, do not set basepaths (let OSC() deal with it)
+		//	basepaths = basepatho
+		//endif
 		
 		// request optional parameters
 		Variable startsuffix = 0000
@@ -171,7 +170,7 @@ Function osc(basepatho, basenameo, suffend, [basepaths, basenames, startsuffix])
 		// Part 3 Close out the wave
 		killwaves $nameo
 		suffix +=1
-		if (V_Flag)
+		if (V_Flag ==0)
 			return -1		//user canceled something
 		endif
 	while(suffix<=suffend)
