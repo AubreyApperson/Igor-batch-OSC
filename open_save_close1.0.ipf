@@ -1,6 +1,6 @@
 #pragma rtGlobals=1		// Use modern global access method.
-#pragma version = 1.00
-// Program to open files, save them as tab delimidated, then close them out of memory.
+#pragma version = 1.01
+// Program to open files, save them as tab delimitated, then close them out of memory.
 
 // Example:
 //  osc("C:Documents and Settings:computation:Desktop:AFM_6-2-16:", "SKPM_", 21, basepaths ="C:Documents and Settings:computation:Desktop:testfolder:",  startsuffix = 0000)
@@ -9,7 +9,7 @@
 
 //startsuffix is an optional parameter and if given must be given as "startsuffix=0000"
 // see->    DisplayHelpTopic "ParamIsDefault"
-// basepatho = base path to open  
+// basepatho = base path to open
 // basenameo = base name to open
 // suffend = last number in the batch to process
 // basepaths = base path to save
@@ -21,7 +21,7 @@ Function osc(basepatho, basenameo, suffend, [basepaths, basenames, startsuffix])
 	string basepatho, basenameo, basepaths, basenames
 	variable startsuffix, suffend
 	variable suffix
-	
+
 	// check for the startsuffix, if it isn't present, default to 0000
 	if (ParamIsDefault(startsuffix))
 		startsuffix =0000
@@ -35,13 +35,12 @@ Function osc(basepatho, basenameo, suffend, [basepaths, basenames, startsuffix])
 		basepaths = basepatho
 	endif
 	suffix = startsuffix
-	
+
 	// Set the symbolic file path for the open operation
 	NewPath/O opensezme basepatho
 	// Set the symbolic file path for the save operation
-	NewPath/O savesezme basepaths
-	
-	
+	NewPath/C/O savesezme basepaths
+
 	do
 	// form the filename
 	// note that num2string() drops preceeding 0s.  So we must add them back to stay with igor's naming scheme
@@ -57,29 +56,29 @@ Function osc(basepatho, basenameo, suffend, [basepaths, basenames, startsuffix])
 			print "I'm sorry, we don't know what to do with this number suffix. See command osc()."
 			abort
 		endif
-		
+
 		string nameo = basenameo + zeros +num2istr(suffix)
-		
+
 		// open the wave
 		LoadWave /P=opensezme nameo
-		
-		
+
+
 		// Part 2  Save the wave as tab seperated
 		// create the name to save the wave under
 		string names = basenames + zeros + num2str(suffix) + ".txt"  			// this is the name of the file
 		string namesfp = basepaths + names				// this is the names full path
 		// Save/J SKPM_0000 as "SKPM_0000.txt"
 		Save/O/J $nameo as namesfp  // '$' operator converts the string to a file reference
-		
+
 		// Part 3 Close out the wave
 		killwaves $nameo
 		suffix +=1
-		
+
 		while(suffix<=suffend)
 	end
-	
+
 print "\r dun dun ..Doneee. \r"
-	
+
 end
 
 
