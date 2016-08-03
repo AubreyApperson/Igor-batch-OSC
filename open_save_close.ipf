@@ -1,5 +1,8 @@
 #pragma rtGlobals=1		// Use modern global access method.
 #pragma version = 2.0
+// This work supported by NSF Career Award DMR -1056861
+// Primary Author : AK Apperson
+
 // Program to open files, save them as tab delimitated, then close them out of memory.
 
 // Example:
